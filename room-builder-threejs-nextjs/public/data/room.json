@@ -1,0 +1,102 @@
+[
+    {
+        "type": "box",
+        "width": 1,
+        "height": 1,
+        "depth": 1,
+        "color": 16711680,
+        "position": {
+            "x": -2,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "sphere",
+        "radius": 0.5,
+        "color": 65280,
+        "position": {
+            "x": 10,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": -5,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": -3,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": -1,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": 1,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": 3,
+            "y": 0.5,
+            "z": 0
+        }
+    },
+    {
+        "type": "chair",
+        "rotation": 0,
+        "selected": false,
+        "properties": {
+            "size": 1
+        },
+        "position": {
+            "x": 5,
+            "y": 0.5,
+            "z": 0
+        }
+    }
+]

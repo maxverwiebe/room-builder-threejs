@@ -1,103 +1,564 @@
-import Image from "next/image";
+"use client";
+
+import React, { useRef, useEffect, useState } from "react";
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { DragControls } from "three/examples/jsm/controls/DragControls";
+import * as customModels from "../data/objects";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const mountRef = useRef(null);
+  const sceneRef = useRef(null);
+  const dragControlsRef = useRef(null);
+  const [mounted, setMounted] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [showObjectBrowser, setShowObjectBrowser] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    object: null,
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const staticObjects = [
+    {
+      label: "Box",
+      data: {
+        type: "box",
+        width: 1,
+        height: 1,
+        depth: 1,
+        color: 16711680,
+      },
+    },
+    {
+      label: "Sphere",
+      data: {
+        type: "sphere",
+        radius: 0.5,
+        color: 65280,
+      },
+    },
+  ];
+
+  const dynamicObjects = Object.keys(customModels).map((key) => ({
+    label: customModels[key].name || key,
+    data: {
+      type: key,
+      rotation: 0,
+      selected: false,
+      properties: { size: 1 },
+    },
+  }));
+
+  const availableObjects = [...dynamicObjects, ...staticObjects];
+
+  const draggableObjectsRef = useRef([]);
+
+  const clearSceneObjects = () => {
+    if (sceneRef.current) {
+      draggableObjectsRef.current.forEach((obj) => {
+        sceneRef.current.remove(obj);
+      });
+      draggableObjectsRef.current = [];
+    }
+  };
+
+  const spawnObject = (item) => {
+    item.position = { x: 0, y: 0, z: 0 };
+    addObjectsFromData([item]);
+    if (dragControlsRef.current) {
+      dragControlsRef.current.dispose();
+    }
+    const dragControls = new DragControls(
+      draggableObjectsRef.current,
+      sceneRef.current.userData.camera,
+      mountRef.current.children[0]
+    );
+    dragControls.transformGroup = true;
+    dragControls.enabled = editMode;
+    dragControls.addEventListener("dragstart", () => {
+      sceneRef.current.userData.orbitControls.enabled = false;
+    });
+    dragControls.addEventListener("dragend", () => {
+      sceneRef.current.userData.orbitControls.enabled = true;
+    });
+    dragControlsRef.current = dragControls;
+  };
+
+  const handleDelete = () => {
+    if (contextMenu.object && sceneRef.current) {
+      sceneRef.current.remove(contextMenu.object);
+      draggableObjectsRef.current = draggableObjectsRef.current.filter(
+        (obj) => obj !== contextMenu.object
+      );
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
+  const addObjectsFromData = (data) => {
+    if (!sceneRef.current) return;
+    data.forEach((item) => {
+      let object;
+      if (item.type === "box") {
+        const geometry = new THREE.BoxGeometry(
+          item.width,
+          item.height,
+          item.depth
+        );
+        const material = new THREE.MeshStandardMaterial({
+          color: item.color || 0x00ff00,
+        });
+        object = new THREE.Mesh(geometry, material);
+        if (item.position) {
+          object.position.set(
+            item.position.x,
+            item.position.y,
+            item.position.z
+          );
+        }
+        sceneRef.current.add(object);
+        draggableObjectsRef.current.push(object);
+        object.userData.originalData = { ...item };
+      } else if (item.type === "sphere") {
+        const geometry = new THREE.SphereGeometry(item.radius, 32, 32);
+        const material = new THREE.MeshStandardMaterial({
+          color: item.color || 0xff0000,
+        });
+        object = new THREE.Mesh(geometry, material);
+        if (item.position) {
+          object.position.set(
+            item.position.x,
+            item.position.y,
+            item.position.z
+          );
+        }
+        sceneRef.current.add(object);
+        draggableObjectsRef.current.push(object);
+        object.userData.originalData = { ...item };
+      } else if (customModels[item.type]) {
+        customModels[item.type]
+          .render3D(item)
+          .then((object3D) => {
+            if (item.position) {
+              object3D.position.set(
+                item.position.x,
+                item.position.y,
+                item.position.z
+              );
+            }
+            if (item.rotation !== undefined) {
+              object3D.rotation.y = item.rotation * (Math.PI / 180);
+            }
+            sceneRef.current.add(object3D);
+            draggableObjectsRef.current.push(object3D);
+            object3D.userData.originalData = { ...item };
+          })
+          .catch((error) =>
+            console.error("Fehler beim Rendern des Custom-Objekts:", error)
+          );
+      } else {
+        console.warn("Unbekannter Objekttyp:", item.type);
+      }
+    });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+        clearSceneObjects();
+        addObjectsFromData(jsonData);
+        if (dragControlsRef.current) {
+          dragControlsRef.current.dispose();
+        }
+        const dragControls = new DragControls(
+          draggableObjectsRef.current,
+          sceneRef.current.userData.camera,
+          mountRef.current.children[0]
+        );
+        dragControls.transformGroup = true;
+        dragControls.enabled = editMode;
+        dragControls.addEventListener("dragstart", () => {
+          sceneRef.current.userData.orbitControls.enabled = false;
+        });
+        dragControls.addEventListener("dragend", () => {
+          sceneRef.current.userData.orbitControls.enabled = true;
+        });
+        dragControlsRef.current = dragControls;
+      } catch (err) {
+        console.error("Fehler beim Parsen der JSON-Datei:", err);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const exportAsJSON = () => {
+    const exportedData = draggableObjectsRef.current.map((obj) => {
+      const original = obj.userData.originalData || {};
+      return {
+        ...original,
+        position: {
+          x: obj.position.x,
+          y: obj.position.y,
+          z: obj.position.z,
+        },
+        rotation: obj.rotation ? obj.rotation.y * (180 / Math.PI) : 0,
+      };
+    });
+
+    const jsonString = JSON.stringify(exportedData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "scene_export.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xaaaaaa);
+    sceneRef.current = scene;
+
+    const width = mountRef.current.clientWidth;
+    const height = mountRef.current.clientHeight;
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.set(0, 2, 5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    mountRef.current.appendChild(renderer.domElement);
+
+    const orbitControls = new OrbitControls(camera, renderer.domElement);
+    scene.userData.orbitControls = orbitControls;
+    scene.userData.camera = camera;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 7.5);
+    scene.add(directionalLight);
+
+    fetch("/data/room.json")
+      .then((response) => response.json())
+      .then((data) => {
+        addObjectsFromData(data);
+        const dragControls = new DragControls(
+          draggableObjectsRef.current,
+          camera,
+          renderer.domElement
+        );
+        dragControls.transformGroup = true;
+        dragControls.enabled = editMode;
+        dragControls.addEventListener("dragstart", () => {
+          orbitControls.enabled = false;
+        });
+        dragControls.addEventListener("dragend", () => {
+          orbitControls.enabled = true;
+        });
+        dragControlsRef.current = dragControls;
+      })
+      .catch((error) =>
+        console.error("Fehler beim Laden der JSON-Daten:", error)
+      );
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      orbitControls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    const handleResize = () => {
+      const width = mountRef.current.clientWidth;
+      const height = mountRef.current.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    };
+    window.addEventListener("resize", handleResize);
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      const rect = renderer.domElement.getBoundingClientRect();
+      const mouse = new THREE.Vector2(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1
+      );
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(
+        draggableObjectsRef.current,
+        true
+      );
+      if (intersects.length > 0) {
+        let selectedObj = intersects[0].object;
+        while (selectedObj.parent && selectedObj.parent.type !== "Scene") {
+          selectedObj = selectedObj.parent;
+        }
+        setContextMenu({
+          visible: true,
+          x: e.clientX,
+          y: e.clientY,
+          object: selectedObj,
+        });
+      } else {
+        setContextMenu({ visible: false, x: 0, y: 0, object: null });
+      }
+    };
+    renderer.domElement.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      renderer.domElement.removeEventListener("contextmenu", handleContextMenu);
+      mountRef.current.removeChild(renderer.domElement);
+    };
+  }, [mounted]);
+
+  useEffect(() => {
+    if (dragControlsRef.current) {
+      dragControlsRef.current.enabled = editMode;
+    }
+  }, [editMode]);
+
+  if (!mounted) return <div style={{ width: "100vw", height: "100vh" }} />;
+
+  return (
+    <>
+      <div ref={mountRef} style={{ width: "100vw", height: "100vh" }} />
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          background: "rgba(0,0,0,0.7)",
+          color: "white",
+          padding: "10px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          zIndex: 1000,
+        }}
+      >
+        <span>{"Bachelorproject @ CAU"}</span>
+        <span>{editMode ? "Edit Mode: ON" : "Edit Mode: OFF"}</span>
+        {editMode && (
+          <button
+            onClick={() => setShowObjectBrowser(true)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            ➕ Spawn object
+          </button>
+        )}
+        <div>
+          <button
+            onClick={() => setShowSettings(true)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "white",
+              cursor: "pointer",
+              marginRight: "10px",
+            }}
           >
-            Read our docs
-          </a>
+            ⚙️ Settings
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+      <input
+        id="jsonFileInput"
+        type="file"
+        accept=".json"
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
+      {showSettings && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2000,
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div
+            style={{
+              background: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              minWidth: "300px",
+              position: "relative",
+            }}
+          >
+            <h3>Settings</h3>
+            <div style={{ marginBottom: "10px" }}>
+              <label>
+                Edit Mode:
+                <input
+                  type="checkbox"
+                  checked={editMode}
+                  onChange={() => setEditMode(!editMode)}
+                  style={{ marginLeft: "10px" }}
+                />
+              </label>
+            </div>
+            <button
+              onClick={() => {
+                document.getElementById("jsonFileInput").click();
+              }}
+              style={{
+                background: "none",
+                border: "1px solid white",
+                color: "white",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+            >
+              Upload JSON
+            </button>
+
+            <button
+              onClick={() => {
+                exportAsJSON();
+              }}
+              style={{
+                background: "none",
+                border: "1px solid white",
+                color: "white",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}
+            >
+              Export as JSON
+            </button>
+            <button
+              onClick={() => setShowSettings(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "18px",
+                cursor: "pointer",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showObjectBrowser && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2000,
+          }}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div
+            style={{
+              background: "white",
+              padding: "20px",
+              borderRadius: "8px",
+              minWidth: "500px",
+              position: "relative",
+            }}
+          >
+            <h3>Object Browser</h3>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {availableObjects.map((obj) => (
+                <li key={obj.label} style={{ marginBottom: "5px" }}>
+                  <button
+                    onClick={() => {
+                      spawnObject(obj.data);
+                      setShowObjectBrowser(false);
+                    }}
+                    style={{
+                      padding: "5px 10px",
+                      cursor: "pointer",
+                      width: "100%",
+                    }}
+                  >
+                    {obj.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => setShowObjectBrowser(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "18px",
+                cursor: "pointer",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
+      {contextMenu.visible && (
+        <div
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+          className="fixed bg-white border border-gray-300 p-2 rounded shadow-lg z-50 flex flex-col space-y-2"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <span>{contextMenu.object.userData.originalData.type}</span>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+          >
+            Delete
+          </button>
+          <button
+            onClick={() =>
+              setContextMenu({ visible: false, x: 0, y: 0, object: null })
+            }
+            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+    </>
   );
 }
