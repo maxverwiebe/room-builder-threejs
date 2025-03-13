@@ -1,102 +1,80 @@
 [
     {
-        "type": "box",
-        "width": 1,
-        "height": 1,
-        "depth": 1,
-        "color": 16711680,
-        "position": {
-            "x": -2,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "box",
+      "width": 20,
+      "height": 0.2,
+      "depth": 20,
+      "color": "#5177c2",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": 0
     },
     {
-        "type": "sphere",
-        "radius": 0.5,
-        "color": 65280,
-        "position": {
-            "x": 10,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "box",
+      "width": 20,
+      "height": 3,
+      "depth": 0.2,
+      "color": "#282a2e",
+      "position": {
+        "x": 0,
+        "y": 1.5,
+        "z": -10
+      },
+      "rotation": 0
     },
     {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": -5,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "box",
+      "width": 20,
+      "height": 3,
+      "depth": 0.2,
+      "color": "#282a2e",
+      "position": {
+        "x": 0,
+        "y": 1.5,
+        "z": 10
+      },
+      "rotation": 0
     },
     {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": -3,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "box",
+      "width": 0.2,
+      "height": 3,
+      "depth": 20,
+      "color": "#282a2e",
+      "position": {
+        "x": -10,
+        "y": 1.5,
+        "z": 0
+      },
+      "rotation": 0
     },
     {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": -1,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "box",
+      "width": 0.2,
+      "height": 3,
+      "depth": 20,
+      "color": "#282a2e",
+      "position": {
+        "x": 10,
+        "y": 1.5,
+        "z": 0
+      },
+      "rotation": 0
     },
     {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": 1,
-            "y": 0.5,
-            "z": 0
-        }
-    },
-    {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": 3,
-            "y": 0.5,
-            "z": 0
-        }
-    },
-    {
-        "type": "chair",
-        "rotation": 0,
-        "selected": false,
-        "properties": {
-            "size": 1
-        },
-        "position": {
-            "x": 5,
-            "y": 0.5,
-            "z": 0
-        }
+      "type": "chair",
+      "rotation": 0,
+      "selected": false,
+      "properties": {
+        "size": 1
+      },
+      "position": {
+        "x": -1.076574622901981,
+        "y": 0.541600825152982,
+        "z": 0.33469385075940994
+      }
     }
-]
+  ]

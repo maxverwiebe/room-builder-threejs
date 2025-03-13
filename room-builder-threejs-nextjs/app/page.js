@@ -107,8 +107,9 @@ export default function Home() {
           item.height,
           item.depth
         );
+
         const material = new THREE.MeshStandardMaterial({
-          color: item.color || 0x00ff00,
+          color: new THREE.Color(item.color).getHex() || 0x00ff00,
         });
         object = new THREE.Mesh(geometry, material);
         if (item.position) {
@@ -124,7 +125,7 @@ export default function Home() {
       } else if (item.type === "sphere") {
         const geometry = new THREE.SphereGeometry(item.radius, 32, 32);
         const material = new THREE.MeshStandardMaterial({
-          color: item.color || 0xff0000,
+          color: new THREE.Color(item.color).getHex() || 0x00ff00,
         });
         object = new THREE.Mesh(geometry, material);
         if (item.position) {
@@ -404,7 +405,7 @@ export default function Home() {
             <div className="flex-col">
               <p>Created by Maximilian Verwiebe</p>
               <p className="text-xs">
-                For the Bachelor Project "Wirtschftaftsinformatik" at CAU (Kiel
+                For the Bachelor Project "Wirtschaftsinformatik" at CAU (Kiel
                 University)
               </p>
             </div>
