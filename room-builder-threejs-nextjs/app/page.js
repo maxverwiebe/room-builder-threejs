@@ -338,34 +338,14 @@ export default function Home() {
 
   return (
     <>
-      <div ref={mountRef} style={{ width: "100vw", height: "100vh" }} />
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          background: "rgba(0,0,0,0.7)",
-          color: "white",
-          padding: "10px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          zIndex: 1000,
-        }}
-      >
-        <span>{"Bachelorproject @ CAU"}</span>
+      <div ref={mountRef} className="w-screen h-screen" />
+      <div className="fixed bottom-0 left-0 w-full bg-black/70 text-white p-3 flex justify-between items-center z-50">
+        <span>Bachelorproject @ CAU</span>
         <span>{editMode ? "Edit Mode: ON" : "Edit Mode: OFF"}</span>
         {editMode && (
           <button
             onClick={() => setShowObjectBrowser(true)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "white",
-              cursor: "pointer",
-              marginRight: "10px",
-            }}
+            className="bg-transparent border-0 text-white cursor-pointer mr-3"
           >
             ➕ Spawn object
           </button>
@@ -373,13 +353,7 @@ export default function Home() {
         <div>
           <button
             onClick={() => setShowSettings(true)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "white",
-              cursor: "pointer",
-              marginRight: "10px",
-            }}
+            className="bg-transparent border-0 text-white cursor-pointer mr-3"
           >
             ⚙️ Settings
           </button>
@@ -389,130 +363,69 @@ export default function Home() {
         id="jsonFileInput"
         type="file"
         accept=".json"
-        style={{ display: "none" }}
+        className="hidden"
         onChange={handleFileChange}
       />
       {showSettings && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              minWidth: "300px",
-              position: "relative",
-            }}
-          >
-            <h3>Settings</h3>
-            <div style={{ marginBottom: "10px" }}>
-              <label>
+        <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center justify-center z-[2000]">
+          <div className="bg-black p-5 rounded-lg min-w-[300px] relative  max-w-md">
+            <h3 className="text-white text-xl font-bold mb-4">Settings</h3>
+            <div className="mb-2.5">
+              <label className="flex items-center">
                 Edit Mode:
                 <input
                   type="checkbox"
                   checked={editMode}
                   onChange={() => setEditMode(!editMode)}
-                  style={{ marginLeft: "10px" }}
+                  className="ml-2.5"
                 />
               </label>
             </div>
-            <button
-              onClick={() => {
-                document.getElementById("jsonFileInput").click();
-              }}
-              style={{
-                background: "none",
-                border: "1px solid white",
-                color: "white",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Upload JSON
-            </button>
-
-            <button
-              onClick={() => {
-                exportAsJSON();
-              }}
-              style={{
-                background: "none",
-                border: "1px solid white",
-                color: "white",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              Export as JSON
-            </button>
+            <div className="flex-col">
+              <button
+                onClick={() => document.getElementById("jsonFileInput").click()}
+                className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer mb-4"
+              >
+                Import JSON
+              </button>
+              <button
+                onClick={exportAsJSON}
+                className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer mb-4"
+              >
+                Export JSON
+              </button>
+            </div>
             <button
               onClick={() => setShowSettings(false)}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "18px",
-                cursor: "pointer",
-              }}
+              className="absolute top-2.5 right-2.5 bg-transparent border-0 text-xl cursor-pointer"
             >
               ✕
             </button>
+            <div className="flex-col">
+              <p>Created by Maximilian Verwiebe</p>
+              <p className="text-xs">
+                For the Bachelor Project "Wirtschftaftsinformatik" at CAU (Kiel
+                University)
+              </p>
+            </div>
           </div>
         </div>
       )}
-
       {showObjectBrowser && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              minWidth: "500px",
-              position: "relative",
-            }}
-          >
-            <h3>Object Browser</h3>
-            <ul style={{ listStyle: "none", padding: 0 }}>
+        <div className="fixed top-0 left-0 w-screen h-screen bg-black/50 flex items-center justify-center z-[2000]">
+          <div className="bg-black p-5 rounded-lg min-w-[500px] relative">
+            <h3 className="text-white text-xl font-bold mb-4">
+              Object Browser
+            </h3>
+            <ul className="list-none p-0">
               {availableObjects.map((obj) => (
-                <li key={obj.label} style={{ marginBottom: "5px" }}>
+                <li key={obj.label} className="mb-2">
                   <button
                     onClick={() => {
                       spawnObject(obj.data);
                       setShowObjectBrowser(false);
                     }}
-                    style={{
-                      padding: "5px 10px",
-                      cursor: "pointer",
-                      width: "100%",
-                    }}
+                    className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer"
                   >
                     {obj.label}
                   </button>
@@ -521,28 +434,21 @@ export default function Home() {
             </ul>
             <button
               onClick={() => setShowObjectBrowser(false)}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "18px",
-                cursor: "pointer",
-              }}
+              className="absolute top-2.5 right-2.5 bg-transparent border-0 text-xl cursor-pointer"
             >
               ✕
             </button>
           </div>
         </div>
       )}
-
       {contextMenu.visible && (
         <div
           style={{ top: contextMenu.y, left: contextMenu.x }}
-          className="fixed bg-white border border-gray-300 p-2 rounded shadow-lg z-50 flex flex-col space-y-2"
+          className="fixed bg-neutral-800 p-2 rounded shadow-lg z-50 flex flex-col space-y-2 max-w-[208px]"
         >
-          <span>{contextMenu.object.userData.originalData.type}</span>
+          <span className="text-white">
+            {contextMenu.object.userData.originalData.type}
+          </span>
           <button
             onClick={handleDelete}
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
