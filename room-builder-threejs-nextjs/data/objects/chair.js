@@ -17,13 +17,13 @@ function makeObjectMaxLOD() {
   back.position.set(0, 0.5, -0.225);
   chair.add(back);
 
-  const legGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.25, 8);
+  const legGeometry = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8);
   const legMaterial = new THREE.MeshLambertMaterial({ color: 0xd9d7d7 });
   const legPositions = [
-    [-0.2, 0.125, 0.2],
-    [0.2, 0.125, 0.2],
-    [-0.2, 0.125, -0.2],
-    [0.2, 0.125, -0.2],
+    [-0.2, 0.05, 0.2],
+    [0.2, 0.05, 0.2],
+    [-0.2, 0.05, -0.2],
+    [0.2, 0.05, -0.2],
   ];
   legPositions.forEach((pos) => {
     const leg = new THREE.Mesh(legGeometry, legMaterial);
