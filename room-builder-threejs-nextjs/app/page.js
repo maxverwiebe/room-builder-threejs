@@ -104,6 +104,20 @@ export default function Home() {
       clone.position.z += 0.5;
       sceneRef.current.add(clone);
       draggableObjectsRef.current.push(clone);
+
+      // INFO: Workaround to make the cloned object draggable
+      if (dragControlsRef.current) {
+        dragControlsRef.current.transformGroup = true;
+        dragControlsRef.current.enabled = editMode;
+        dragControlsRef.current.addEventListener("dragstart", () => {
+          sceneRef.current.userData.orbitControls.enabled = false;
+        });
+        dragControlsRef.current.addEventListener("dragend", () => {
+          sceneRef.current.userData.orbitControls.enabled = true;
+        });
+        dragControlsRef.current.objects.push(clone);
+      }
+
       setContextMenu({ visible: false, x: 0, y: 0, object: null });
     }
   };
