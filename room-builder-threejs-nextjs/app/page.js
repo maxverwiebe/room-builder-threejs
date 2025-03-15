@@ -97,6 +97,17 @@ export default function Home() {
     }
   };
 
+  const handleDuplicate = () => {
+    if (contextMenu.object && sceneRef.current) {
+      const clone = contextMenu.object.clone();
+      clone.position.x += 0.5;
+      clone.position.z += 0.5;
+      sceneRef.current.add(clone);
+      draggableObjectsRef.current.push(clone);
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
   const addObjectsFromData = (data) => {
     if (!sceneRef.current) return;
     data.forEach((item) => {
@@ -467,10 +478,16 @@ export default function Home() {
             Delete
           </button>
           <button
+            onClick={() => handleDuplicate()}
+            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+          >
+            Duplicate
+          </button>
+          <button
             onClick={() =>
               setContextMenu({ visible: false, x: 0, y: 0, object: null })
             }
-            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+            className="bg-gray-500 text-white px-3 py-1 mt-2 rounded hover:bg-gray-600 transition-colors"
           >
             Cancel
           </button>
