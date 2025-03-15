@@ -67,7 +67,7 @@ export default function Home() {
 
   const spawnObject = (item) => {
     item.position = { x: 0, y: 0, z: 0 };
-    addObjectsFromData([item]);
+    importJSONroomData([item]);
     if (dragControlsRef.current) {
       dragControlsRef.current.dispose();
     }
@@ -150,7 +150,7 @@ export default function Home() {
     }
   };
 
-  const addObjectsFromData = (data) => {
+  const importJSONroomData = (data) => {
     if (!sceneRef.current) return;
     data.forEach((item) => {
       let object;
@@ -202,8 +202,15 @@ export default function Home() {
                 item.position.z
               );
             }
-            if (item.rotation !== undefined) {
-              object3D.rotation.y = item.rotation * (Math.PI / 180);
+            if (
+              item.rotation !== undefined &&
+              item.rotation.y !== undefined &&
+              item.rotation.x !== undefined &&
+              item.rotation.z !== undefined
+            ) {
+              object3D.rotation.y = item.rotation.y * (Math.PI / 180);
+              object3D.rotation.x = item.rotation.x * (Math.PI / 180);
+              object3D.rotation.z = item.rotation.z * (Math.PI / 180);
             }
             sceneRef.current.add(object3D);
             draggableObjectsRef.current.push(object3D);
@@ -226,7 +233,7 @@ export default function Home() {
       try {
         const jsonData = JSON.parse(event.target.result);
         clearSceneObjects();
-        addObjectsFromData(jsonData);
+        importJSONroomData(jsonData);
         if (dragControlsRef.current) {
           dragControlsRef.current.dispose();
         }
@@ -261,7 +268,11 @@ export default function Home() {
           y: obj.position.y,
           z: obj.position.z,
         },
-        rotation: obj.rotation ? obj.rotation.y * (180 / Math.PI) : 0,
+        rotation: {
+          x: obj.rotation.x * (180 / Math.PI),
+          y: obj.rotation.y * (180 / Math.PI),
+          z: obj.rotation.z * (180 / Math.PI),
+        },
       };
     });
 
@@ -313,7 +324,7 @@ export default function Home() {
     fetch("/data/room.json")
       .then((response) => response.json())
       .then((data) => {
-        addObjectsFromData(data);
+        importJSONroomData(data);
         const dragControls = new DragControls(
           draggableObjectsRef.current,
           camera,
