@@ -122,6 +122,34 @@ export default function Home() {
     }
   };
 
+  const handleRotationYAxis = () => {
+    if (contextMenu.object) {
+      contextMenu.object.rotation.y += Math.PI / 2;
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
+  const handleRotationZAxis = () => {
+    if (contextMenu.object) {
+      contextMenu.object.rotation.z += Math.PI / 2;
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
+  const handleRotationXAxis = () => {
+    if (contextMenu.object) {
+      contextMenu.object.rotation.x += Math.PI / 2;
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
+  const handleResetRotation = () => {
+    if (contextMenu.object) {
+      contextMenu.object.rotation.set(0, 0, 0);
+      setContextMenu({ visible: false, x: 0, y: 0, object: null });
+    }
+  };
+
   const addObjectsFromData = (data) => {
     if (!sceneRef.current) return;
     data.forEach((item) => {
@@ -302,7 +330,7 @@ export default function Home() {
         dragControlsRef.current = dragControls;
       })
       .catch((error) =>
-        console.error("Fehler beim Laden der JSON-Daten:", error)
+        console.error("Error while loading JSON room data:", error)
       );
 
     const animate = () => {
@@ -312,6 +340,7 @@ export default function Home() {
     };
     animate();
 
+    // TODO: probably broken
     const handleResize = () => {
       const width = mountRef.current.clientWidth;
       const height = mountRef.current.clientHeight;
@@ -486,16 +515,52 @@ export default function Home() {
             {contextMenu.object.userData.originalData.type}
           </span>
           <button
+            onClick={() =>
+              setContextMenu({ ...contextMenu, submenu: "rotate" })
+            }
+            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+          >
+            Rotate
+          </button>
+          {contextMenu.submenu === "rotate" && (
+            <div className="flex flex-col space-y-2">
+              <button
+                onClick={handleRotationYAxis}
+                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+              >
+                Rotate 90° <span className="text-[10px]">y-Axis</span>
+              </button>
+              <button
+                onClick={handleRotationZAxis}
+                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+              >
+                Rotate 90° <span className="text-[10px]">z-Axis</span>
+              </button>
+              <button
+                onClick={handleRotationXAxis}
+                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+              >
+                Rotate 90° <span className="text-[10px]">x-Axis</span>
+              </button>
+              <button
+                onClick={handleResetRotation}
+                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+              >
+                Reset Rotation
+              </button>
+            </div>
+          )}
+          <button
+            onClick={handleDuplicate}
+            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
+          >
+            Duplicate
+          </button>
+          <button
             onClick={handleDelete}
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
           >
             Delete
-          </button>
-          <button
-            onClick={() => handleDuplicate()}
-            className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition-colors"
-          >
-            Duplicate
           </button>
           <button
             onClick={() =>
