@@ -231,6 +231,10 @@ export default function Home() {
   useEffect(() => {
     if (!mounted) return;
 
+    setEditMode(
+      localStorage.getItem("3droombuilder.editModeEnabled") === "true"
+    );
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xaaaaaa);
     sceneRef.current = scene;
@@ -377,7 +381,13 @@ export default function Home() {
                 <input
                   type="checkbox"
                   checked={editMode}
-                  onChange={() => setEditMode(!editMode)}
+                  onChange={() => {
+                    setEditMode(!editMode);
+                    localStorage.setItem(
+                      "3droombuilder.editModeEnabled",
+                      !editMode
+                    );
+                  }}
                   className="ml-2.5"
                 />
               </label>
