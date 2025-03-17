@@ -6,6 +6,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; // ca
 import { DragControls } from "three/examples/jsm/controls/DragControls";
 import * as customModels from "../data/objects";
 
+const VERSION = "1.0.0";
+
 // default export component
 export default function Home() {
   const mountRef = useRef(null); // reference to the mount element
@@ -321,6 +323,7 @@ export default function Home() {
       localStorage.getItem("3droombuilder.editModeEnabled") === "true"
     );
 
+    // initializes the actual render scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xaaaaaa);
     sceneRef.current = scene;
@@ -334,10 +337,12 @@ export default function Home() {
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
 
+    // movement
     const orbitControls = new OrbitControls(camera, renderer.domElement);
     scene.userData.orbitControls = orbitControls;
     scene.userData.camera = camera;
 
+    // basic minimum lighting
     scene.add(new THREE.AmbientLight(0xffffff, 0.5));
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 10, 7.5);
@@ -366,14 +371,7 @@ export default function Home() {
         console.error("Error while loading JSON room data:", error)
       );
 
-    const animate = () => {
-      requestAnimationFrame(animate);
-      orbitControls.update();
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    // TODO: probably broken
+    // when resizing window
     const handleResize = () => {
       const width = mountRef.current.clientWidth;
       const height = mountRef.current.clientHeight;
@@ -383,13 +381,14 @@ export default function Home() {
     };
     window.addEventListener("resize", handleResize);
 
+    // when rightclicking a 3D object
     const handleContextMenu = (e) => {
       e.preventDefault();
       const rect = renderer.domElement.getBoundingClientRect();
       const mouse = new THREE.Vector2(
         ((e.clientX - rect.left) / rect.width) * 2 - 1,
         -((e.clientY - rect.top) / rect.height) * 2 + 1
-      );
+      ); // mouse coords
       const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(mouse, camera);
       const intersects = raycaster.intersectObjects(
@@ -432,7 +431,7 @@ export default function Home() {
     <>
       <div ref={mountRef} className="w-screen h-screen" />
       <div className="fixed bottom-0 left-0 w-full bg-black/70 text-white p-3 flex justify-between items-center z-50">
-        <span>Bachelorproject @ CAU</span>
+        <span>Bachelor Project @ CAU Kiel </span>
         <span>{editMode ? "Edit Mode: ON" : "Edit Mode: OFF"}</span>
         {editMode && (
           <button
@@ -505,6 +504,7 @@ export default function Home() {
                 For the Bachelor Project "Wirtschaftsinformatik" at CAU (Kiel
                 University)
               </p>
+              <p>{VERSION}</p>
             </div>
           </div>
         </div>
