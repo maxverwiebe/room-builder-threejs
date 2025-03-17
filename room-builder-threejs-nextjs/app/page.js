@@ -371,6 +371,13 @@ export default function Home() {
         console.error("Error while loading JSON room data:", error)
       );
 
+    const animate = () => {
+      requestAnimationFrame(animate);
+      orbitControls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
     // when resizing window
     const handleResize = () => {
       const width = mountRef.current.clientWidth;
