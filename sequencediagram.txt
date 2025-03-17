@@ -1,0 +1,37 @@
+sequenceDiagram
+  participant U as User
+  participant C as Room Builder (Client)
+
+  U ->> C: Opens 3D Room Builder
+  C ->> U: Renders standard room scene
+
+  U ->> C: Activates edit mode (via Settings)
+  C ->> U: Switches DragControls on
+
+  U ->> C: Opens object browser
+  U ->> C: Selects “Add Object
+  C ->> C: Spawns object and inserts it into the scene
+  C -->> U: Updates 3D scene
+
+  U ->> C: Right-click on object (opens context menu)
+  C -->> U: Shows context menu of the object
+             
+
+  U ->> C: Selects “Rotate” (e.g. y-axis)
+  C -->> U: Updates scene (object rotates)
+
+  U ->> C: Selects “Duplicate”
+  C -->> U: Clones object and updates scene
+
+  U ->> C: Selects “Delete”
+  C -->> U: Removes object and updates scene
+
+  U ->> C: Exports room as JSON
+  C ->> U: Sends JSON file (room data)
+
+  U ->> C: Imports JSON file
+  C ->> C: Loads imported data and replaces objects in the scene
+  C -->> U: Updates 3D scene
+
+  U ->> C: Closes settings/browser dialogs
+  C -->> U: Closes dialogs and returns to the scene
