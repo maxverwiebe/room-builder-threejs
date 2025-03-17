@@ -2,25 +2,27 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; // camera movement etc.
 import { DragControls } from "three/examples/jsm/controls/DragControls";
 import * as customModels from "../data/objects";
 
+// default export component
 export default function Home() {
-  const mountRef = useRef(null);
-  const sceneRef = useRef(null);
-  const dragControlsRef = useRef(null);
-  const [mounted, setMounted] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [showObjectBrowser, setShowObjectBrowser] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const mountRef = useRef(null); // reference to the mount element
+  const sceneRef = useRef(null); // reference to the scene
+  const dragControlsRef = useRef(null); // reference to the drag controls
+  const [mounted, setMounted] = useState(false); // when basic things are initialized
+  const [editMode, setEditMode] = useState(false); // whether user can edit the scene / move objects
+  const [showObjectBrowser, setShowObjectBrowser] = useState(false); // whether to show the object browser menu
+  const [showSettings, setShowSettings] = useState(false); // whether to show the settings menu
   const [contextMenu, setContextMenu] = useState({
     visible: false,
     x: 0,
     y: 0,
     object: null,
-  });
+  }); // context menu for objects (deletion etc.)
 
+  // static objects, used for things like walls etc.
   const staticObjects = [
     {
       label: "Box",
@@ -42,6 +44,7 @@ export default function Home() {
     },
   ];
 
+  // dynamic objects, used for custom models like helloKitty etc.
   const dynamicObjects = Object.keys(customModels).map((key) => ({
     label: customModels[key].name || key,
     data: {
@@ -52,10 +55,13 @@ export default function Home() {
     },
   }));
 
+  // merge static and dynamic objects for the object browser
   const availableObjects = [...dynamicObjects, ...staticObjects];
 
+  // reference to the draggable objects
   const draggableObjectsRef = useRef([]);
 
+  // clear all current objects in the scene
   const clearSceneObjects = () => {
     if (sceneRef.current) {
       draggableObjectsRef.current.forEach((obj) => {
@@ -65,13 +71,17 @@ export default function Home() {
     }
   };
 
+  // spawn an object in the scene & UPDATES the drag controls
   const spawnObject = (item) => {
     item.position = { x: 0, y: 0, z: 0 };
-    importJSONroomData([item]);
+    importJSONroomData([item]); // creates the actual THREE.js object
+
+    // refreshing the drag controls, so the new object can be dragged
     if (dragControlsRef.current) {
+      // clear any existing drag controls
       dragControlsRef.current.dispose();
     }
-    const dragControls = new DragControls(
+    const dragControls = new DragControls( // create new one
       draggableObjectsRef.current,
       sceneRef.current.userData.camera,
       mountRef.current.children[0]
@@ -87,16 +97,18 @@ export default function Home() {
     dragControlsRef.current = dragControls;
   };
 
+  // deletes the currently right clicked object
   const handleDelete = () => {
     if (contextMenu.object && sceneRef.current) {
-      sceneRef.current.remove(contextMenu.object);
+      sceneRef.current.remove(contextMenu.object); // remove from scene
       draggableObjectsRef.current = draggableObjectsRef.current.filter(
         (obj) => obj !== contextMenu.object
-      );
+      ); // remove from draggable objects
       setContextMenu({ visible: false, x: 0, y: 0, object: null });
     }
   };
 
+  // creates a duplicate of the currently right clicked object
   const handleDuplicate = () => {
     if (contextMenu.object && sceneRef.current) {
       const clone = contextMenu.object.clone();
@@ -105,7 +117,8 @@ export default function Home() {
       sceneRef.current.add(clone);
       draggableObjectsRef.current.push(clone);
 
-      // INFO: Workaround to make the cloned object draggable
+      // workaround to make the cloned object draggable
+      // TODO: Find a better way to do this? maybe by using the spawn function idk
       if (dragControlsRef.current) {
         dragControlsRef.current.transformGroup = true;
         dragControlsRef.current.enabled = editMode;
@@ -122,6 +135,7 @@ export default function Home() {
     }
   };
 
+  // rotates the currently right clicked object around the y-axis
   const handleRotationYAxis = () => {
     if (contextMenu.object) {
       contextMenu.object.rotation.y += Math.PI / 2;
@@ -129,6 +143,7 @@ export default function Home() {
     }
   };
 
+  // rotates the currently right clicked object around the z-axis
   const handleRotationZAxis = () => {
     if (contextMenu.object) {
       contextMenu.object.rotation.z += Math.PI / 2;
@@ -136,6 +151,7 @@ export default function Home() {
     }
   };
 
+  // rotates the currently right clicked object around the x-axis
   const handleRotationXAxis = () => {
     if (contextMenu.object) {
       contextMenu.object.rotation.x += Math.PI / 2;
@@ -143,6 +159,7 @@ export default function Home() {
     }
   };
 
+  // resets the rotation of the currently right clicked object
   const handleResetRotation = () => {
     if (contextMenu.object) {
       contextMenu.object.rotation.set(0, 0, 0);
@@ -150,6 +167,8 @@ export default function Home() {
     }
   };
 
+  // imports the JSON room data into the scene
+  // example in dpublic/data/room.json:
   const importJSONroomData = (data) => {
     if (!sceneRef.current) return;
     data.forEach((item) => {
@@ -217,14 +236,15 @@ export default function Home() {
             object3D.userData.originalData = { ...item };
           })
           .catch((error) =>
-            console.error("Fehler beim Rendern des Custom-Objekts:", error)
+            console.error("Error while rendering the customModel:", error)
           );
       } else {
-        console.warn("Unbekannter Objekttyp:", item.type);
+        console.warn("Unknown object type ", item.type);
       }
     });
   };
 
+  // handles the file change event for the JSON import (when clicking the import button)
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -234,6 +254,7 @@ export default function Home() {
         const jsonData = JSON.parse(event.target.result);
         clearSceneObjects();
         importJSONroomData(jsonData);
+        // reinitialize drag controls
         if (dragControlsRef.current) {
           dragControlsRef.current.dispose();
         }
@@ -258,9 +279,10 @@ export default function Home() {
     reader.readAsText(file);
   };
 
+  // exports the current scene as JSON
   const exportAsJSON = () => {
     const exportedData = draggableObjectsRef.current.map((obj) => {
-      const original = obj.userData.originalData || {};
+      const original = obj.userData.originalData || {}; // restore original data
       return {
         ...original,
         position: {
