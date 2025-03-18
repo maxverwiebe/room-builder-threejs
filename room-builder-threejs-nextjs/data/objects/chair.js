@@ -40,13 +40,6 @@ function makeObjectMinLOD() {
 
 export default {
   name: "chair",
-  properties: {
-    size: {
-      label: "Size",
-      type: "number",
-      defaultValue: 1,
-    },
-  },
 
   render3D: function (element) {
     const newSize = element.properties?.size || 1;

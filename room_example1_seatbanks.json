@@ -1,0 +1,194 @@
+[
+  {
+    "type": "box",
+    "width": 30,
+    "height": 0.2,
+    "depth": 20,
+    "color": 13421772,
+    "position": { "x": 0, "y": 0, "z": 0 },
+    "rotation": 0
+  },
+  {
+    "type": "box",
+    "width": 30,
+    "height": 3,
+    "depth": 0.2,
+    "color": 4473924,
+    "position": { "x": 0, "y": 1.5, "z": -10 },
+    "rotation": 0
+  },
+  {
+    "type": "box",
+    "width": 30,
+    "height": 3,
+    "depth": 0.2,
+    "color": 4473924,
+    "position": { "x": 0, "y": 1.5, "z": 10 },
+    "rotation": 0
+  },
+  {
+    "type": "box",
+    "width": 0.2,
+    "height": 3,
+    "depth": 20,
+    "color": 4473924,
+    "position": { "x": -15, "y": 1.5, "z": 0 },
+    "rotation": 0
+  },
+  {
+    "type": "box",
+    "width": 0.2,
+    "height": 3,
+    "depth": 20,
+    "color": 4473924,
+    "position": { "x": 15, "y": 1.5, "z": 0 },
+    "rotation": 0
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -9, "y": 0.5, "z": 4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -4.5, "y": 0.5, "z": 4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 0, "y": 0.5, "z": 4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 4.5, "y": 0.5, "z": 4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 9, "y": 0.5, "z": 4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -9, "y": 0.5, "z": 0 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -4.5, "y": 0.5, "z": 0 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 0, "y": 0.5, "z": 0 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 4.5, "y": 0.5, "z": 0 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 9, "y": 0.5, "z": 0 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -9, "y": 0.5, "z": -4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -4.5, "y": 0.5, "z": -4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 0, "y": 0.5, "z": -4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 4.5, "y": 0.5, "z": -4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 9, "y": 0.5, "z": -4 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -9, "y": 0.5, "z": -8 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -4.5, "y": 0.5, "z": -8 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 0, "y": 0.5, "z": -8 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 4.5, "y": 0.5, "z": -8 }
+  },
+  {
+    "type": "seatbank",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": 9, "y": 0.5, "z": -8 }
+  },
+  {
+    "type": "whiteboard",
+    "rotation": 0,
+    "selected": false,
+    "properties": { "size": 1 },
+    "position": { "x": -0.06710898809089949, "y": 1.6846811489857818, "z": 9.86241474523793 }
+  }
+]

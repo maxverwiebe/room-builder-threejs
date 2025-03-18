@@ -4,7 +4,7 @@
     "width": 30,
     "height": 0.2,
     "depth": 20,
-    "color": 10264732,
+    "color": 13421772,
     "position": {
       "x": 0,
       "y": 0,
@@ -85,7 +85,7 @@
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -96,13 +96,13 @@
       "size": 1
     },
     "position": {
-      "x": -5,
+      "x": -9,
       "y": 0.5,
-      "z": -3
+      "z": 4
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -113,47 +113,13 @@
       "size": 1
     },
     "position": {
-      "x": -5,
+      "x": -4.5,
       "y": 0.5,
-      "z": -3.8
+      "z": 4
     }
   },
   {
-    "type": "table",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -2.5,
-      "y": 0.5,
-      "z": -3
-    }
-  },
-  {
-    "type": "chair",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -2.5,
-      "y": 0.5,
-      "z": -3.8
-    }
-  },
-  {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -166,11 +132,11 @@
     "position": {
       "x": 0,
       "y": 0.5,
-      "z": -3
+      "z": 4
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -181,13 +147,13 @@
       "size": 1
     },
     "position": {
-      "x": 0,
+      "x": 4.5,
       "y": 0.5,
-      "z": -3.8
+      "z": 4
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -198,13 +164,13 @@
       "size": 1
     },
     "position": {
-      "x": 2.5,
+      "x": 9,
       "y": 0.5,
-      "z": -3
+      "z": 4
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -215,13 +181,13 @@
       "size": 1
     },
     "position": {
-      "x": 2.5,
+      "x": -9,
       "y": 0.5,
-      "z": -3.8
+      "z": 0
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -232,98 +198,13 @@
       "size": 1
     },
     "position": {
-      "x": 5,
-      "y": 0.5,
-      "z": -3
-    }
-  },
-  {
-    "type": "chair",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": 5,
-      "y": 0.5,
-      "z": -3.8
-    }
-  },
-  {
-    "type": "table",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -5,
+      "x": -4.5,
       "y": 0.5,
       "z": 0
     }
   },
   {
-    "type": "chair",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -5,
-      "y": 0.5,
-      "z": -0.8
-    }
-  },
-  {
-    "type": "table",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -2.5,
-      "y": 0.5,
-      "z": 0
-    }
-  },
-  {
-    "type": "chair",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": -2.5,
-      "y": 0.5,
-      "z": -0.8
-    }
-  },
-  {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -340,7 +221,7 @@
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -351,30 +232,13 @@
       "size": 1
     },
     "position": {
-      "x": 0,
-      "y": 0.5,
-      "z": -0.8
-    }
-  },
-  {
-    "type": "table",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": 2.5,
+      "x": 4.5,
       "y": 0.5,
       "z": 0
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -385,30 +249,13 @@
       "size": 1
     },
     "position": {
-      "x": 2.5,
-      "y": 0.5,
-      "z": -0.8
-    }
-  },
-  {
-    "type": "table",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": 5,
+      "x": 9,
       "y": 0.5,
       "z": 0
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -419,13 +266,13 @@
       "size": 1
     },
     "position": {
-      "x": 5,
+      "x": -9,
       "y": 0.5,
-      "z": -0.8
+      "z": -4
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -436,13 +283,13 @@
       "size": 1
     },
     "position": {
-      "x": -5,
+      "x": -4.5,
       "y": 0.5,
-      "z": 3
+      "z": -4
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -453,13 +300,13 @@
       "size": 1
     },
     "position": {
-      "x": -5,
+      "x": 0,
       "y": 0.5,
-      "z": 2.2
+      "z": -4
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -470,13 +317,13 @@
       "size": 1
     },
     "position": {
-      "x": -2.5,
+      "x": 4.5,
       "y": 0.5,
-      "z": 3
+      "z": -4
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -487,13 +334,13 @@
       "size": 1
     },
     "position": {
-      "x": -2.5,
+      "x": 9,
       "y": 0.5,
-      "z": 2.2
+      "z": -4
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -504,13 +351,13 @@
       "size": 1
     },
     "position": {
-      "x": 0,
+      "x": -9,
       "y": 0.5,
-      "z": 3
+      "z": -8
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -521,13 +368,13 @@
       "size": 1
     },
     "position": {
-      "x": 0,
+      "x": -4.5,
       "y": 0.5,
-      "z": 2.2
+      "z": -8
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -538,13 +385,13 @@
       "size": 1
     },
     "position": {
-      "x": 2.5,
+      "x": 0,
       "y": 0.5,
-      "z": 3
+      "z": -8
     }
   },
   {
-    "type": "chair",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -555,13 +402,13 @@
       "size": 1
     },
     "position": {
-      "x": 2.5,
+      "x": 4.5,
       "y": 0.5,
-      "z": 2.2
+      "z": -8
     }
   },
   {
-    "type": "table",
+    "type": "seatbank",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -572,26 +419,9 @@
       "size": 1
     },
     "position": {
-      "x": 5,
+      "x": 9,
       "y": 0.5,
-      "z": 3
-    }
-  },
-  {
-    "type": "chair",
-    "rotation": {
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": 5,
-      "y": 0.5,
-      "z": 2.2
+      "z": -8
     }
   },
   {
@@ -612,24 +442,7 @@
     }
   },
   {
-    "type": "cauSign",
-    "rotation": {
-      "x": 0,
-      "y": 180,
-      "z": 0
-    },
-    "selected": false,
-    "properties": {
-      "size": 1
-    },
-    "position": {
-      "x": 3.0539874834177665,
-      "y": 2.1659526918847805,
-      "z": 9.8613313318654
-    }
-  },
-  {
-    "type": "trashbin",
+    "type": "table2",
     "rotation": {
       "x": 0,
       "y": 0,
@@ -640,9 +453,9 @@
       "size": 1
     },
     "position": {
-      "x": 4.516646838176574,
-      "y": 0.37934392941440453,
-      "z": 9.172147724004873
+      "x": 0.022179652521821858,
+      "y": 0.45217825265469136,
+      "z": 7.06514844810763
     }
   },
   {
@@ -657,9 +470,60 @@
       "size": 1
     },
     "position": {
-      "x": -0.5593873034586989,
-      "y": 0.3893318793127708,
-      "z": 5.687342510668851
+      "x": -1.9636363484517827,
+      "y": 0.45525650470982315,
+      "z": 7.063339164749519
+    }
+  },
+  {
+    "type": "table2",
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "selected": false,
+    "properties": {
+      "size": 1
+    },
+    "position": {
+      "x": -1.9636363484517827,
+      "y": 0.45525650470982315,
+      "z": 7.063339164749519
+    }
+  },
+  {
+    "type": "table2",
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "selected": false,
+    "properties": {
+      "size": 1
+    },
+    "position": {
+      "x": 1.975932430975993,
+      "y": 0.4520526639076896,
+      "z": 7.072189418475113
+    }
+  },
+  {
+    "type": "table2",
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "selected": false,
+    "properties": {
+      "size": 1
+    },
+    "position": {
+      "x": 1.975932430975993,
+      "y": 0.4520526639076896,
+      "z": 7.072189418475113
     }
   },
   {
@@ -674,13 +538,13 @@
       "size": 1
     },
     "position": {
-      "x": -0.5383864277097887,
-      "y": 0.4870345271960468,
-      "z": 6.562273568837223
+      "x": -0.08930288303338257,
+      "y": 0.464285972061238,
+      "z": 7.854318961597774
     }
   },
   {
-    "type": "chair",
+    "type": "cauSign",
     "rotation": {
       "x": 0,
       "y": 180,
@@ -691,9 +555,26 @@
       "size": 1
     },
     "position": {
-      "x": -0.5383864277097887,
-      "y": 0.4870345271960468,
-      "z": 6.562273568837223
+      "x": -3.597439363482466,
+      "y": 2.198604079687189,
+      "z": 9.87223665648676
+    }
+  },
+  {
+    "type": "hellokitty",
+    "rotation": {
+      "x": -0.38429785249949017,
+      "y": 166.45201688420337,
+      "z": 11.163260154199383
+    },
+    "selected": false,
+    "properties": {
+      "size": 1
+    },
+    "position": {
+      "x": 0.1545183426013208,
+      "y": 1.0842939825937234,
+      "z": 7.792115005638091
     }
   }
 ]
