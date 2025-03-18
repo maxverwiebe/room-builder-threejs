@@ -23,6 +23,10 @@ export default function Home() {
     y: 0,
     object: null,
   }); // context menu for objects (deletion etc.)
+  const [benchmarkMode, setBenchmarkMode] = useState(false);
+  const [fps, setFps] = useState(0);
+  const smoothedFpsRef = useRef(0); // because fps is raw and changes quickly between 59 and 60
+  const lastFrameTimeRef = useRef(performance.now());
 
   // static objects, used for things like walls etc.
   const staticObjects = [
@@ -371,8 +375,24 @@ export default function Home() {
         console.error("Error while loading JSON room data:", error)
       );
 
+    // updates the frames
     const animate = () => {
       requestAnimationFrame(animate);
+
+      if (benchmarkMode) {
+        const smoothingFactor = 0.1;
+        const now = performance.now();
+        const delta = now - lastFrameTimeRef.current;
+        const currentFps = 1000 / delta;
+
+        // new smoothed FPS = old value + (new measure value - old value) * smoothingFactor
+        smoothedFpsRef.current =
+          smoothedFpsRef.current * (1 - smoothingFactor) +
+          currentFps * smoothingFactor;
+        setFps(Math.round(smoothedFpsRef.current));
+        lastFrameTimeRef.current = now;
+      }
+
       orbitControls.update();
       renderer.render(scene, camera);
     };
@@ -424,7 +444,7 @@ export default function Home() {
       renderer.domElement.removeEventListener("contextmenu", handleContextMenu);
       mountRef.current.removeChild(renderer.domElement);
     };
-  }, [mounted]);
+  }, [mounted, benchmarkMode]);
 
   useEffect(() => {
     if (dragControlsRef.current) {
@@ -437,6 +457,13 @@ export default function Home() {
   return (
     <>
       <div ref={mountRef} className="w-screen h-screen" />
+
+      {benchmarkMode && (
+        <div className="fixed top-0 right-0 m-4 p-2 bg-black text-white rounded">
+          <div>FPS: {fps}</div>
+        </div>
+      )}
+
       <div className="fixed bottom-0 left-0 w-full bg-black/70 text-white p-3 flex justify-between items-center z-50">
         <span>Bachelor Project @ CAU Kiel </span>
         <span>{editMode ? "Edit Mode: ON" : "Edit Mode: OFF"}</span>
@@ -484,19 +511,30 @@ export default function Home() {
                   className="ml-2.5"
                 />
               </label>
+              <label className="flex items-center">
+                Benchmark (Show FPS):
+                <input
+                  type="checkbox"
+                  checked={benchmarkMode}
+                  onChange={() => {
+                    setBenchmarkMode(!benchmarkMode);
+                  }}
+                  className="ml-2.5"
+                />
+              </label>
             </div>
             <div className="flex-col">
               <button
                 onClick={() => document.getElementById("jsonFileInput").click()}
                 className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer mb-4"
               >
-                Import JSON
+                Import scene as JSON
               </button>
               <button
                 onClick={exportAsJSON}
                 className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer mb-4"
               >
-                Export JSON
+                Export scene as JSON
               </button>
             </div>
             <button
