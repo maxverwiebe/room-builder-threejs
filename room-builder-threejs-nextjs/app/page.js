@@ -6,7 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"; // ca
 import { DragControls } from "three/examples/jsm/controls/DragControls";
 import * as customModels from "../data/objects";
 
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 
 // default export component
 export default function Home() {
@@ -323,10 +323,6 @@ export default function Home() {
   useEffect(() => {
     if (!mounted) return;
 
-    setEditMode(
-      localStorage.getItem("3droombuilder.editModeEnabled") === "true"
-    );
-
     // initializes the actual render scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xaaaaaa);
@@ -522,8 +518,9 @@ export default function Home() {
                   className="ml-2.5"
                 />
               </label>
+              <p className="text-xs">Warning: This reloads the scene!</p>
             </div>
-            <div className="flex-col">
+            <div className="flex-col mt-6">
               <button
                 onClick={() => document.getElementById("jsonFileInput").click()}
                 className="w-full px-3 py-2 bg-neutral-600 rounded hover:bg-neutral-500 transition-colors cursor-pointer mb-4"
